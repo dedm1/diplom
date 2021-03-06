@@ -110,7 +110,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>file name</string>
+     <string>file number</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -168,53 +168,27 @@
    <widget class="QLabel" name="result">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>50</y>
-      <width>151</width>
-      <height>61</height>
+      <x>190</x>
+      <y>220</y>
+      <width>141</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>ТОЖЕ ОТВЕТ</string>
     </property>
    </widget>
-   <widget class="QLabel" name="res">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>230</y>
-      <width>59</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ОТВЕТ</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>20</y>
+      <x>40</x>
+      <y>230</y>
       <width>80</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>тыкни</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>230</y>
-      <width>80</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>кнопка</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_8">
@@ -230,7 +204,7 @@
      <string>vscale</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -256,7 +230,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>300</x>
@@ -282,6 +256,19 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>40</y>
+      <width>201</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -292,6 +279,15 @@
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>файл</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="choise"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -300,8 +296,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="choise">
+   <property name="text">
+    <string>choise</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
