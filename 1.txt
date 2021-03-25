@@ -1,3 +1,6 @@
-4
-56
-6
+34     #FILE NUM
+5     #DELAY(s)
+CH     #CHANNELS
+6     #HSCALE(s)
+0,0     #ACVSCALES(V)
+0,0     #DCVSCALES(V)
