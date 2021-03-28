@@ -328,12 +328,16 @@ void MainWindow::on_choise_triggered()
 void MainWindow::on_actionenter_triggered()
 {
  QString fcopy=fileName1+QString("/3.exe");
-    if (QFile::exists(fcopy))
-    {
-        QFile::remove(fcopy);
-    }
+
     QString currnt= QDir::currentPath() + QString("/3.exe");
     ui->label_6->setText(currnt);
+     if (QFile::exists(fcopy))
+   {
+       if(fcopy != currnt)
+       {
+       QFile::remove(fcopy);
+       }
+   }
    qDebug() << QFile::copy(currnt, fcopy);
      QProcess process ;
    process.execute(fcopy);
