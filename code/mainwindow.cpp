@@ -6,6 +6,7 @@
 #include <QTextStream>
 #include <QProcess>
 #include <QDebug>
+
 QString fileName;
 QString fileName1;
 
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Evs2->setValidator(validator);
     ui->Ehscale->setValidator(validator);
     ui->Edelay->setValidator(validator);
+    ui->Egap->setValidator(validator);
 
     ui->DC1->setEnabled(false);
     ui->AC1->setEnabled(false);
@@ -42,12 +44,14 @@ MainWindow::~MainWindow()
 void writes(double data)
 {
    // QFile file("/home/dedm/fuck/дипломная/qt/calc1/1.txt");
+    QFile mFile(fileName);
     QFile file(fileName);
     if(file.open(QIODevice::WriteOnly))
        {
         QTextStream stream(&file);
-        stream << data  ;
-        stream << "     #FILE NUM" << endl; ;
+        stream << "####COMMON#### " << endl;
+        stream << "FILE NUMBER     : " ;
+        stream << data  << endl;
         //  file.write(data);
        }
        file.close();
@@ -58,11 +62,18 @@ void writen(double data ,int flag)
     QFile file(fileName);
     if(file.open(QIODevice::Append))
     {
+        if (flag==11)
+        {
+            QTextStream stream(&file);
+            stream << "TIME GAP	: ";
+            stream << data << endl ;
+
+        }
     if (flag==1)
     {
         QTextStream stream(&file);
-        stream << data  ;
-        stream << "     #DELAY(s)" << endl;
+        stream << "DELAY		: ";
+        stream << data << endl ;
 
     }
 
@@ -71,29 +82,47 @@ void writen(double data ,int flag)
         if(data == 1)
         {
         QTextStream stream(&file);
-        stream << "CH1,2"  ;
-        stream << "     #CHANNELS" << endl;
+        stream << "####CH1####" << endl;
+        stream << "ON" << endl;
+        stream << "AC" << endl;
         }
 
         if(data == 2)
         {
-        QTextStream stream(&file);
-        stream << "CH1"  ;
-        stream << "     #CHANNELS" << endl;
+            QTextStream stream(&file);
+            stream << "####CH1####" << endl;
+            stream << "ON" << endl;
+            stream << "DC" << endl;
         }
 
         if(data == 3)
         {
         QTextStream stream(&file);
-        stream << "CH2"  ;
-        stream << "     #CHANNELS" << endl;
+        stream << "####CH1####" << endl;
+        stream << "OFF" << endl;
+        stream << "AC" << endl;
         }
 
         if(data == 4)
         {
         QTextStream stream(&file);
-        stream << "CH"  ;
-        stream << "     #CHANNELS" << endl;
+        stream << "####CH2####" << endl;
+        stream << "ON" << endl;
+        stream << "AC" << endl;
+        }
+        if(data == 5)
+        {
+        QTextStream stream(&file);
+        stream << "####CH2####" << endl;
+        stream << "ON" << endl;
+        stream << "DC" << endl;
+        }
+        if(data == 6)
+        {
+        QTextStream stream(&file);
+        stream << "####CH1####" << endl;
+        stream << "OFF" << endl;
+        stream << "AC" << endl;
         }
     }
 
@@ -101,9 +130,24 @@ void writen(double data ,int flag)
     if (flag==3)
     {
         QTextStream stream(&file);
-        stream << data  ;
-        stream << "     #HSCALE(s)" << endl;
+        stream << "HSCALE		: " ;
+        stream << data << endl ;
+        stream << ""<< endl;
     }
+    if (flag==4)
+    {
+        QTextStream stream(&file);
+        stream << "VSCALE		: ";
+        stream << data << endl ;
+    }
+    if (flag==5)
+    {
+        QTextStream stream(&file);
+        stream << "VPOS		: " ;
+        stream << data  << endl;
+        stream << ""<< endl;
+    }
+
     if (flag==0)
     {
     if(file.open(QIODevice::Append))
@@ -115,85 +159,6 @@ void writen(double data ,int flag)
     file.close();
     }
 }
-void writevs(double data ,double data1, int acdc1,int acdc2)
-{
-    QFile file(fileName);
-    if(file.open(QIODevice::Append))
-    {
-     if(acdc1==0 && acdc2==0)
-     {   QTextStream stream(&file);
-         stream << "0"  ;stream << ","  ;stream << "0";
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << "0"  ;stream << ","  ;stream << "0";
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==1 && acdc2==0)
-     {
-         QTextStream stream(&file);
-         stream << data  ;stream << ","  ;stream << "0";
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << "0"  ;stream << ","  ;stream << "0";
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==2 && acdc2==0)
-     {
-         QTextStream stream(&file);
-         stream << "0"  ;stream << ","  ;stream << "0";
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << data  ;stream << ","  ;stream << "0";
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==0 && acdc2==1)
-     {
-         QTextStream stream(&file);
-         stream << "0"  ;stream << ","  ;stream << data1;
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << "0"  ;stream << ","  ;stream << "0";
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==0 && acdc2==2)
-     {
-         QTextStream stream(&file);
-         stream << data  ;stream << ","  ;stream << "0";
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << "0"  ;stream << ","  ;stream << data1;
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==1 && acdc2==1)
-     {
-         QTextStream stream(&file);
-         stream << data  ;stream << ","  ;stream << data1;
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << "0"  ;stream << ","  ;stream << "0";
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==1 &&  acdc2==2)
-     {
-         QTextStream stream(&file);
-         stream << data  ;stream << ","  ;stream << "0";
-         stream << "     #ACVSCALES(V)" << endl;
-         stream <<"0"  ;stream << ","  ;stream << data1;
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==2 &&  acdc2==1)
-     {
-         QTextStream stream(&file);
-         stream << "0"  ;stream << ","  ;stream << data1;
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << data  ;stream << ","  ;stream << "0";
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-     if(acdc1==2 &&  acdc2==2)
-     {
-         QTextStream stream(&file);
-         stream << "0"  ;stream << ","  ;stream << "0";
-         stream << "     #ACVSCALES(V)" << endl;
-         stream << data  ;stream << ","  ;stream << data1;
-         stream << "     #DCVSCALES(V)" << endl;
-     }
-    }
-     file.close();
-}
 
 
 void MainWindow::on_pushButton_clicked()
@@ -203,12 +168,18 @@ void MainWindow::on_pushButton_clicked()
     double hscale1=1;
     double vs1 =1;
     double vs2 =2;
+    double gap1 =1;
 
     QString x= ui->Efile->text();
       file1 = x.toInt();
+      QString x1 = ui->Egap->text();
+     std::replace( x1.begin(), x1.end(), ',', '.' );
+        gap1 = x1.toDouble();
      QString x2 = ui->Edelay->text();
+     std::replace( x2.begin(), x2.end(), ',', '.' );
        delay1 = x2.toDouble();
       QString x3 = ui->Ehscale->text();
+      std::replace( x3.begin(), x3.end(), ',', '.' );
         hscale1 = x3.toDouble();
 
     //ui->resul->setText(QString::number(hscale1));
@@ -245,6 +216,7 @@ void MainWindow::on_pushButton_clicked()
                 ACDC2 = 2;
         }
         QString x = ui->Evs2->text();
+        std::replace( x.begin(), x.end(), ',', '.' );
           vs2 = x.toDouble();
     }
     else
@@ -255,30 +227,42 @@ void MainWindow::on_pushButton_clicked()
     if (file1!=0)
     {
         writes(file1);
+        writen(gap1,11);
         writen(delay1,1);
-        if (ACDC1!=0 && ACDC2!=0)
-        {
-                 writen(1,2);
-        }
-        if (ACDC1!=0 && ACDC2==0 )
-        {
-                writen(2,2);
-        }
-        if (ACDC1==0 && ACDC2!=0)
-        {
-                writen(3,2);
-        }
-        if (ACDC1==0 && ACDC2==0)
-        {
-                writen(4,2);
-        }
+         writen(hscale1,3);
 
-        writen(hscale1,3);
-        writevs(vs1,vs2,ACDC1,ACDC2);
+         if (ACDC1 ==1)
+         {
+                  writen(1,2);
+         }
+         if (ACDC1 ==2)
+         {
+                  writen(2,2);
+         }
+         if (ACDC1 ==0)
+         {
+                  writen(3,2);
+         }
+         writen(vs1,4);
+         writen(0,5);
+
+         if (ACDC2 ==1)
+         {
+                  writen(4,2);
+         }
+         if (ACDC2 ==2)
+         {
+                  writen(5,2);
+         }
+         if (ACDC2 ==0)
+         {
+                  writen(6,2);
+         }
+         writen(vs2,4);
+         writen(0,5);
 
 
-
-         ui->result->setText("Записалаось");
+         ui->result->setText("Записалось");
     }
     else {
               ui->result->setText("Введите File number");
@@ -319,7 +303,7 @@ void MainWindow::on_checkBox_2_stateChanged(int state1)
 void MainWindow::on_choise_triggered()
 {
    fileName1 = QFileDialog::getExistingDirectory(this, tr("сюда"), "");
-            fileName=fileName1+QString("/1.txt");
+            fileName=fileName1+QString("/SET.txt");
             //fileName="D:/QT/diplom/qt/calc1/1.txt";
         // ui->label_6->setText(fileName);
 }
@@ -328,17 +312,18 @@ void MainWindow::on_choise_triggered()
 void MainWindow::on_actionenter_triggered()
 {
  QString fcopy=fileName1+QString("/3.exe");
-
     QString currnt= QDir::currentPath() + QString("/3.exe");
-    ui->label_6->setText(currnt);
-     if (QFile::exists(fcopy))
-   {
-       if(fcopy != currnt)
-       {
-       QFile::remove(fcopy);
-       }
-   }
+    ui->label_6->setText(fcopy);
+    if (QFile::exists(fcopy))
+    {
+        if(fcopy != currnt)
+        {
+        QFile::remove(fcopy);
+        }
+    }
    qDebug() << QFile::copy(currnt, fcopy);
-     QProcess process ;
-   process.execute(fcopy);
+ \
+   QByteArray ba = fcopy.toLocal8Bit();
+   const char *pyte = ba.data();
+   system(pyte);
 }
